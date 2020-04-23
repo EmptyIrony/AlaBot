@@ -15,10 +15,17 @@ public class ModuleController {
         modules.addAll(Arrays.asList(
                 new ChooseModule()
         ));
+
+        modules.forEach(Module::onEnable);
     }
 
-    public void onMsg(){
-        modules.forEach(Module::onMessage);
+    public void handlerMsg(long group,long user,String msg,int id){
+        this.modules
+                .forEach(module -> {
+                    if (module.filter(group,user,msg)){
+                        module.onMessage(group,user,msg,id);
+                    }
+                });
     }
 
 }

@@ -175,9 +175,7 @@ public class LiveTrackTread implements Runnable{
         JsonObject json = JsonUtil.getJsonFromString(reader.readLine());
         
         this.isLiving = json.get("living").getAsBoolean();
-        UpHelper.getInstance().getCoolQ().logDebug("file","赋值isLiving : " + json.get("living").getAsBoolean());
         this.newVideoTime = json.get("newVideoTime").getAsLong();
-        UpHelper.getInstance().getCoolQ().logDebug("file","赋值newVideoTime : " + json.get("newVideoTime").getAsLong());
     }
 
     private String serialize(){

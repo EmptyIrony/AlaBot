@@ -1,6 +1,7 @@
 package me.cunzai.uphelper;
 
 import lombok.Getter;
+import me.cunzai.uphelper.module.ModuleController;
 import me.cunzai.uphelper.thread.LiveTrackTread;
 import org.apache.http.client.config.CookieSpecs;
 import org.apache.http.client.config.RequestConfig;
@@ -44,6 +45,7 @@ public class UpHelper extends JcqAppAbstract implements ICQVer, IMsg, IRequest {
     @Getter private static UpHelper instance;
 
     private CloseableHttpAsyncClient httpAsyncClient;
+    private ModuleController moduleController;
 
 
     /**
@@ -84,6 +86,8 @@ public class UpHelper extends JcqAppAbstract implements ICQVer, IMsg, IRequest {
         CQ.logInfo("[JCQ] TEST Demo", "测试启动");// 现在就可以用CQ变量来执行任何想要的操作了
         upHelper.startup();// 程序运行开始 调用应用初始化方法
         upHelper.enable();// 程序初始化完成后，启用应用，让应用正常工作
+
+        upHelper.groupMsg(0,0,123123,14413,"","选 你妈死了 他妈死了 都死了",1);
         // 下面对主类进行各方法测试,按照JCQ运行过程，模拟实际情况
     }
 
@@ -149,6 +153,8 @@ public class UpHelper extends JcqAppAbstract implements ICQVer, IMsg, IRequest {
 
         this.httpAsyncClient.start();
 
+        this.moduleController = new ModuleController();
+
         new Thread(new LiveTrackTread()).start();
 
         enable = true;
@@ -204,6 +210,8 @@ public class UpHelper extends JcqAppAbstract implements ICQVer, IMsg, IRequest {
      */
     public int groupMsg(int subType, int msgId, long fromGroup, long fromQQ, String fromAnonymous, String msg,
                         int font) {
+
+        this.moduleController.handlerMsg(fromGroup,fromQQ,msg,msgId);
 
         return MSG_IGNORE;
     }
